@@ -1,4 +1,5 @@
-const User = require('../models/User');
+const db = require('../models/index');
+const User = db['User'];
 
 const getAllUsers = async (req, res) => {
   console.log(User);
@@ -9,4 +10,18 @@ const getAllUsers = async (req, res) => {
     console.log(error);
   }
 };
-module.exports = { getAllUsers };
+
+const createNewUser = async (username, email, password) => {
+  try {
+    const newUser = await User.create({
+      username,
+      email,
+      password,
+    });
+    console.log('User created successfully:', newUser.toJSON());
+    return newUser;
+  } catch (error) {
+    console.log(error);
+  }
+};
+module.exports = { getAllUsers, createNewUser };

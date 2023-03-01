@@ -2,6 +2,8 @@ const db = require('../models/index');
 const User = db['User'];
 const bcrypt = require('bcrypt');
 
+// gets all users
+
 const getAllUsers = async (req, res) => {
   console.log(User);
   try {

@@ -2,15 +2,17 @@ const db = require('../models/index');
 const User = db['User'];
 const bcrypt = require('bcrypt');
 
-// gets all users
-
 const getAllUsers = async (req, res) => {
-  console.log(User);
   try {
     const users = await User.findAll();
     res.status(200).send({ status: 200, success: true, data: users });
   } catch (error) {
-    console.log(error);
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: 'Failed to get all users',
+      error: error.message,
+    });
   }
 };
 
@@ -29,9 +31,12 @@ const getUserById = async (req, res) => {
         .json({ status: 400, success: false, message: "User doesn't exist!" });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ status: 400, success: false, message: error.message });
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: 'Failed to get a user',
+      error: error.message,
+    });
   }
 };
 
@@ -40,13 +45,18 @@ const createNewUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const pwd = await bcrypt.hash(req.body.password, salt);
     const newUser = await User.create({
-      userName: req.body.userName,
+      username: req.body.username,
       email: req.body.email,
       password: pwd,
     });
     res.status(200).send({ status: 200, success: true, data: newUser });
   } catch (error) {
-    console.log(error);
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: 'Failed to create a user',
+      error: error.errors[0].message,
+    });
   }
 };
 
@@ -65,9 +75,12 @@ const deleteUser = async (req, res) => {
         .json({ status: 400, success: false, message: "User doesn't exist!" });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ status: 400, success: false, message: error.message });
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: 'Failed to delete',
+      error: error.message,
+    });
   }
 };
 
@@ -91,9 +104,12 @@ const loginUser = async (req, res) => {
       });
     }
   } catch (error) {
-    res
-      .status(400)
-      .json({ status: 400, success: false, message: error.message });
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: 'Failed to Login',
+      error: error.message,
+    });
   }
 };
 

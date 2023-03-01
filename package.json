@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "migrate:seed": "npm run migrate && npm run seed",
+    "migrate": "npm run migrate:undo:all && npm run migrate:all",
+    "migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "migrate:all": "sequelize-cli db:migrate",
+    "seed:all": "sequelize-cli db:seed:all",
+    "seed:undo:all": "sequelize-cli db:seed:undo:all",
+    "seed": "npm run seed:undo:all && npm run seed:all"
   },
   "author": "",
   "license": "ISC",
@@ -15,7 +22,8 @@
     "pg": "^8.9.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.29.0",
-    "sequelize-cli": "^6.6.0"
+    "sequelize-cli": "^6.6.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

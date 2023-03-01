@@ -7,5 +7,5 @@ const userRouter = express.Router();
 
 userRouter.get('/', getAllUsers);
 // userRouter.post('/', createNewUser);
-
+ 
 module.exports = userRouter;

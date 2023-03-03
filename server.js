@@ -1,5 +1,6 @@
 const db = require('./models/index');
 const { User } = require('./models/index');
+// const User = db['User'];
 const { BcryptUtil } = require('./utils/createPassword');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
@@ -40,9 +41,10 @@ app.get('/google/callback', googleCallBack, async (req, res) => {
       'this is my secret key',
     );
     const user = await User.create({
-      userName: given_name,
+      username: given_name,
       email: email,
       password: await BcryptUtil.hash('password'),
+      // password,
     });
     user.save();
     userObject = { name: given_name, token: TOKEN };
